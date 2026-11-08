@@ -1,0 +1,5 @@
+Options -Indexes
+# Sembunyikan berkas pustaka internal dari akses langsung
+<FilesMatch "^(config|config\.local|config\.local\.example|db|db_kms|es_engine|es_actions|es_stylist_engine|kms_functions|dss_functions|mis_functions|functions)\.php$">
+  Require all denied
+</FilesMatch>

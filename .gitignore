@@ -1,0 +1,5 @@
+config.local.php
+uploads/*
+!uploads/.htaccess
+!uploads/.gitkeep
+!uploads/seed/
