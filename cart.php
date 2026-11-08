@@ -24,7 +24,7 @@ function coupon_check(PDO $pdo, string $code, float $subtotal, int $uid): array
 function back_to(string $fallback): never
 {
     $r = $_POST['return'] ?? '';
-    go(in_array($r, ['catalog.php', 'es_stylist.php', 'cart.php'], true) ? $r : $fallback);
+    go((in_array($r, ['catalog.php', 'es_stylist.php', 'cart.php'], true) || preg_match('/^product\.php\?id=\d+$/', $r)) ? $r : $fallback);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->prepare('INSERT INTO cart_items(user_id, variation_id, quantity) VALUES(?,?,?)')->execute([$uid, $vid, min($qtyAdd, (int)$v['stock'])]);
         }
         flash('success', $v['name'] . ' ditambahkan ke keranjang.');
+        if (!empty($_POST['buy_now'])) { go('cart.php'); }
         back_to('catalog.php');
     }
     if ($a === 'qty') {

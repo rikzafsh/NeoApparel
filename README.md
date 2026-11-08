@@ -28,6 +28,12 @@ Tanpa Apache: `php -S localhost:8000` di folder proyek.
 
 Matikan kotak akun demo di halaman login dengan `'show_demo_accounts' => false` pada `config.local.php`.
 
+## Navigasi & halaman produk (v2.1)
+
+- **Navigasi atas** menggantikan sidebar: menu bergrup berbentuk dropdown (Toko, Operasional, Pakar, Analitik, Pengadaan, Pengetahuan) dengan ikon + deskripsi, **sub-menu kontekstual** di bawah header untuk modul yang sedang dibuka, pencarian produk, keranjang, notifikasi, dan menu akun. Pembeli mendapat tampilan etalase dengan baris kategori. Di HP menu menjadi laci geser.
+- **Halaman detail produk** (`product.php?id=`): galeri per warna, pilihan warna/ukuran/jumlah dengan stok real-time, *Tambah ke keranjang* dan *Beli sekarang*, kartu penjual (jumlah produk, rating toko, terjual), tab Deskripsi/Spesifikasi/Ulasan/Produk serupa, ringkasan & distribusi rating, filter ulasan (bintang, komentar, urutan, halaman), ulasan *pembelian terverifikasi* (pembeli dengan pesanan selesai dapat menulis ulasan), **Produk serupa** (kategori + kemiripan atribut), **Lengkapi gayamu** (padu padan berbasis atribut & harmoni warna), **Lainnya dari toko ini**, **Baru saja Anda lihat**, dan tautan panduan dari KMS. Karyawan melihat tambahan *Insight Expert System* untuk produk tersebut.
+- **Halaman toko** (`store.php?seller=`): semua produk penjual dengan pencarian, kategori, dan urutan.
+
 ## Yang berubah dari versi awal
 
 - **Rebrand** menjadi *Neo Apparel*; konfigurasi terpusat di `config.php` (+ `config.local.php`).

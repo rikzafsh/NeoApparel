@@ -3,14 +3,6 @@
 $pageTitle = $pageTitle ?? APP_NAME;
 $pageKicker = $pageKicker ?? (APP_NAME . ' · sistem terintegrasi');
 $__cu = $_SESSION['user_name'] ?? 'Pengguna';
-$__unread = 0;
-if (isset($pdo) && !empty($_SESSION['user_id'])) {
-    try {
-        $__n = $pdo->prepare('SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0');
-        $__n->execute([(int)$_SESSION['user_id']]);
-        $__unread = (int)$__n->fetchColumn();
-    } catch (Throwable $__e) { $__unread = 0; }
-}
 $__flash = flash_pull();
 ?>
 <!doctype html>
@@ -31,18 +23,5 @@ $__flash = flash_pull();
     <?php endforeach; ?>
 </div>
 <?php endif; ?>
-<div class="main-layout">
-    <?php include __DIR__ . '/sidebar.php'; ?>
-    <main class="content app-content kms-content" id="main">
-        <div class="app-topbar">
-            <div class="row" style="gap:12px">
-                <button type="button" class="icon-btn nav-toggle" id="navToggle" aria-label="Buka menu"><?= icon('menu') ?></button>
-                <div style="display:flex;flex-direction:column"><span class="topbar-kicker"><?= e(mb_strtoupper($pageKicker)) ?></span><strong><?= e($pageTitle) ?></strong></div>
-            </div>
-            <div class="topbar-actions">
-                <?php if (is_employee()): ?>
-                    <a class="icon-btn" href="notifications.php" aria-label="Notifikasi" title="Notifikasi"><?= icon('bell') ?><?php if ($__unread > 0): ?><span class="dot"><?= $__unread > 9 ? '9+' : $__unread ?></span><?php endif; ?></a>
-                <?php endif; ?>
-                <div class="topbar-user"><span class="topbar-avatar"><?= e(mb_strtoupper(mb_substr($__cu, 0, 1))) ?></span><span><?= e($__cu) ?></span></div>
-            </div>
-        </div>
+<?php include __DIR__ . '/navbar.php'; ?>
+<main class="content app-content kms-content" id="main">

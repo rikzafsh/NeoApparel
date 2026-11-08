@@ -56,12 +56,12 @@ include 'layout_top.php';
     <article class="p-card" data-name="<?= e(mb_strtolower($p['name'] . ' ' . $p['cat'] . ' ' . ($p['brand'] ?? ''))) ?>" data-cat="<?= e($p['cat']) ?>" data-price="<?= min($prices) ?>" data-sold="<?= (int)$p['sold'] ?>" data-new="<?= strtotime($p['created']) ?>" data-stock="<?= (int)$totalStock ?>" data-product='<?= e(json_encode($data, JSON_UNESCAPED_UNICODE)) ?>'>
         <div class="visual">
             <div class="p-badges"><?php if ($hot): ?><span class="pill hot">Terlaris</span><?php endif; ?><?php if ($isNew): ?><span class="pill new">Baru</span><?php endif; ?><?php if ($totalStock <= 0): ?><span class="pill warn">Habis</span><?php endif; ?></div>
-            <span class="vis-slot"><?= garment_svg($p['cat'], $p['vars'][0]['color'], $p['name']) ?></span>
+            <a class="vis-link" href="product.php?id=<?= (int)$p['id'] ?>" aria-label="Lihat <?= e($p['name']) ?>"><?= garment_svg($p['cat'], $p['vars'][0]['color'], $p['name']) ?></a>
         </div>
         <div class="p-body">
             <span class="p-cat"><?= e($p['cat']) ?><?= $p['brand'] ? ' · ' . e($p['brand']) : '' ?></span>
-            <h3 class="p-name"><?= e($p['name']) ?></h3>
-            <div class="p-meta"><?php if ($avg !== null): ?><span class="stars">★</span><b><?= number_format((float)$avg, 1, ',', '') ?></b><span>(<?= (int)$n ?>)</span><?php else: ?><span>Belum ada ulasan</span><?php endif; ?></div>
+            <h3 class="p-name"><a href="product.php?id=<?= (int)$p['id'] ?>"><?= e($p['name']) ?></a></h3>
+            <div class="p-meta"><?php if ($avg !== null): ?><span class="stars">★</span><b><?= number_format((float)$avg, 1, ',', '') ?></b><span>(<?= (int)$n ?>)</span><?php else: ?><span>Belum ada ulasan</span><?php endif; ?><?php if ($p['sold'] > 0): ?><span>· <?= (int)$p['sold'] ?> terjual</span><?php endif; ?></div>
             <div class="swatches" role="group" aria-label="Pilih warna"></div>
             <div class="sizes" role="group" aria-label="Pilih ukuran"></div>
             <div class="p-foot">
@@ -116,7 +116,10 @@ include 'layout_top.php';
   });
 
   // filter / urutkan
-  var q = document.getElementById('q'), sort = document.getElementById('sort'), inst = document.getElementById('instock'), grid = document.getElementById('grid'), empty = document.getElementById('empty'), cat = '';
+  var params = new URLSearchParams(location.search);
+  var q = document.getElementById('q'), sort = document.getElementById('sort'), inst = document.getElementById('instock'), grid = document.getElementById('grid'), empty = document.getElementById('empty'), cat = params.get('cat') || '';
+  q.value = params.get('q') || '';
+  [].forEach.call(document.querySelectorAll('.chip'), function (c) { c.classList.toggle('on', c.getAttribute('data-cat') === cat); });
   document.getElementById('chips').addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (!b) return; cat = b.getAttribute('data-cat'); [].forEach.call(document.querySelectorAll('.chip'), function (c) { c.classList.toggle('on', c === b); }); apply(); });
   [q, sort, inst].forEach(function (el) { el.addEventListener('input', apply); el.addEventListener('change', apply); });
   function apply() {
